@@ -424,11 +424,15 @@ class StraceInputStream:
 		if m_args_and_result == None:
 				raise Exception("Invalid line (line %d)" % self.line_no)
 		
-		
-		# Extract the arguments
-		
-		arguments = self.__parse_arguments(arguments_str)
-		
+		# FIXME: for sysinfo, the arguments appear to be
+		# missing a ',' in the output of my version of
+		# strace. this causes argument parsing to fail. for
+		# now, we just skip it for that syscall ...
+		if syscall_name != "sysinfo":
+                        # Extract the arguments
+                        arguments = self.__parse_arguments(arguments_str)
+		else:
+                        arguments = ["sysinfo_argument_parsing_is_broken"]
 		
 		# Finish
 		
